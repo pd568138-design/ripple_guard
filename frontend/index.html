@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101e2e" />
+  <title>RippleGuard | Supply Chain Resilience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="toastStack" class="toast-stack" aria-live="polite"></div>
+  <div id="authView" class="auth-shell">
+    <div class="auth-art">
+      <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-orbit orbit-three"></div>
+      <div class="art-node node-a"></div><div class="art-node node-b"></div><div class="art-node node-c"></div><div class="art-node node-d"></div>
+      <div class="brand-lockup"><span class="brand-mark">R</span><span>Ripple<span class="brand-light">Guard</span></span></div>
+      <div class="art-copy"><p class="eyebrow">SUPPLY CHAIN RESILIENCE PLATFORM</p><h1>See the ripple.<br><em>Protect the whole network.</em></h1><p>Turn disruptions into decisions with connected supply-chain intelligence.</p></div>
+      <div class="art-foot"><span class="pulse-dot"></span> Network visibility · Recovery planning · Risk verification</div>
+    </div>
+    <div class="auth-panel">
+      <div class="auth-mobile-brand"><span class="brand-mark">R</span><b>RippleGuard</b></div>
+      <div class="auth-card">
+        <div class="auth-tabs"><button class="auth-tab active" data-auth-tab="login">Sign in</button><button class="auth-tab" data-auth-tab="register">Create account</button></div>
+        <section id="loginFormWrap">
+          <p class="eyebrow">WELCOME BACK</p><h2>Sign in to your workspace</h2><p class="muted">Continue monitoring your supply network.</p>
+          <form id="loginForm" class="form-stack">
+            <label>Name or email address<input id="loginEmail" type="text" autocomplete="username" placeholder="Your name or work email" required /></label>
+            <label>Password<div class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password" required /><button type="button" class="reveal-pass" data-toggle-password="loginPassword">Show</button></div></label>
+            <button class="btn btn-primary btn-wide" type="submit">Sign in <span>→</span></button>
+          </form>
+          <p class="auth-switch">New to RippleGuard? <button data-switch-auth="register">Create an account</button></p>
+        </section>
+        <section id="registerFormWrap" class="hidden">
+          <p class="eyebrow">CREATE YOUR WORKSPACE</p><h2>Build a resilient network</h2><p class="muted">Create your account and choose your work role.</p>
+          <form id="registerForm" class="form-stack">
+            <div class="two-fields"><label>Full name<input id="regName" required placeholder="Your full name" /></label><label>Company name (same for every role)<input id="regCompany" required placeholder="Company name" /></label></div>
+            <label>Work email<input id="regEmail" type="email" required placeholder="you@company.com" /></label>
+            <label>Phone number<input id="regPhone" type="tel" required placeholder="+91 98765 43210" /></label>
+            <label>Workspace role<select id="regRole" required><option>Supply Chain Manager</option><option>Admin</option><option>Procurement Officer</option><option>Warehouse Manager</option><option>Risk Analyst</option><option>Supplier</option></select></label>
+            <label>Password <span class="label-note">Minimum 8 characters</span><div class="password-wrap"><input id="regPassword" type="password" minlength="8" required placeholder="Create a strong password" /><button type="button" class="reveal-pass" data-toggle-password="regPassword">Show</button></div></label>
+            <button class="btn btn-primary btn-wide" type="submit">Create account <span>→</span></button>
+          </form>
+          <p class="auth-switch">Already registered? <button data-switch-auth="login">Sign in</button></p>
+        </section>
+        <section id="otpFormWrap" class="hidden">
+          <div class="otp-icon">✳</div><p class="eyebrow">VERIFY YOUR ACCOUNT</p><h2>Enter your one-time code</h2><p class="muted">A verification code has been prepared for the phone/email you entered.</p>
+          <div id="demoSms" class="sms-preview hidden"><span class="sms-app-icon">RG</span><div><b>RippleGuard verification</b><p>Your one-time code is <strong id="demoOtpValue">------</strong></p><small>Demo SMS preview · not a real SMS</small></div></div>
+          <form id="otpForm" class="form-stack"><label>6-digit verification code<input id="otpInput" class="otp-input" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="• • • • • •" required /></label><div class="otp-meta"><span>Code expires in</span><b id="otpTimer">03:00</b></div><button class="btn btn-primary btn-wide" type="submit">Verify and continue <span>→</span></button></form>
+          <p class="auth-switch"><button id="cancelOtp">Back to registration</button></p>
+          <p class="tiny-note">For this local prototype, OTP is displayed in the app. Configure a real SMS provider before production use.</p>
+        </section>
+      </div>
+      <div class="auth-bottom">© 2026 RippleGuard · Supply chain decision support</div>
+    </div>
+  </div>
+
+  <div id="appView" class="app-shell hidden">
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-brand"><span class="brand-mark">R</span><span>Ripple<span class="brand-light">Guard</span></span><button id="closeSidebar" class="icon-btn mobile-only" aria-label="Close menu">×</button></div>
+      <div class="workspace-line"><small>WORKSPACE</small><b id="workspaceName">My Company</b></div>
+      <nav class="nav-list" id="mainNav">
+        <button class="nav-item active" data-page="dashboard"><span class="nav-icon">◫</span><span>Dashboard</span></button>
+        <button class="nav-item" data-page="network"><span class="nav-icon">⌘</span><span>Supply network</span></button>
+        <button class="nav-item" data-page="suppliers"><span class="nav-icon">⇄</span><span>Suppliers</span></button>
+        <button class="nav-item" data-page="facilities"><span class="nav-icon">⌂</span><span>Facilities</span></button>
+        <button class="nav-item" data-page="products"><span class="nav-icon">▦</span><span>Products & orders</span></button>
+        <button class="nav-item" data-page="disruptions"><span class="nav-icon">⌁</span><span>Disruptions</span><span class="nav-count" id="navDisruptionCount">0</span></button>
+        <button class="nav-item" data-page="impact"><span class="nav-icon">◔</span><span>Impact analysis</span></button>
+        <button class="nav-item" data-page="simulator"><span class="nav-icon">◉</span><span>What-if simulator</span></button>
+        <button class="nav-item" data-page="recovery"><span class="nav-icon">↗</span><span>Recovery planner</span></button>
+        <button class="nav-item" data-page="validation"><span class="nav-icon">✓</span><span>Plan validation</span></button>
+        <button class="nav-item" data-page="reports"><span class="nav-icon">▤</span><span>Reports</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="user-mini"><div class="avatar" id="userAvatar">P</div><div class="user-mini-text"><b id="userNameSide">User</b><small id="userRoleSide">Role</small></div><button id="logoutBtn" class="icon-btn" title="Sign out">⇥</button></div></div>
+    </aside>
+    <div id="sidebarScrim" class="sidebar-scrim"></div>
+    <main class="main-area">
+      <header class="topbar"><div class="topbar-left"><button id="openSidebar" class="icon-btn mobile-only" aria-label="Open menu">☰</button><div><div class="breadcrumb">RippleGuard <span>/</span> <b id="breadcrumbPage">Command center</b></div><div class="topbar-date" id="currentDate">Supply chain visibility, all in one place.</div></div></div><div class="topbar-actions"><button id="soundToggle" class="icon-btn sound-btn" title="Toggle notification sound">♫</button><button id="voiceToggle" class="icon-btn sound-btn" title="Toggle voice alerts">🔊</button><div class="notification-wrap"><button id="notificationBtn" class="icon-btn notification-btn" title="Notifications"><span>♧</span><i id="notificationBadge" class="notification-badge hidden">0</i></button><div id="notificationPanel" class="notification-panel hidden"><div class="notification-panel-head"><div><b>Notifications</b><small id="notificationSub">Your latest updates</small></div><button id="markAllRead" class="text-button">Mark all read</button></div><div id="notificationList" class="notification-list"></div></div></div><div class="topbar-user"><div class="avatar avatar-small" id="topAvatar">P</div><div><b id="topUserName">User</b><small id="topUserRole">Role</small></div></div></div></header>
+      <div id="pageContent" class="page-content"><div class="loading-state"><div class="loader"></div><p>Preparing your supply network…</p></div></div>
+      <footer class="app-footer"><span>RippleGuard <b>·</b> Decision support prototype</span><span>Data stays within your workspace <i class="footer-lock">◆</i></span></footer>
+    </main>
+  </div>
+  <div id="modalRoot"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

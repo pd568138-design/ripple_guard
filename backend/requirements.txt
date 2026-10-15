@@ -1,0 +1,9 @@
+Flask>=3.0
+flask-cors>=5.0
+pymongo[srv]>=4.10
+certifi
+PyJWT>=2.9
+python-dotenv>=1.0
+reportlab>=4.2
+python-docx>=1.1
+gunicorn>=22.0
